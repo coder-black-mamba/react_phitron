@@ -1,8 +1,15 @@
 import React from 'react'
 import useAuthContext from '../hooks/useAuthContext';
+import { useNavigate } from 'react-router';
 
 export default function Dashboard() {
-    const {user}=useAuthContext()
+    const {user,logoutUser}=useAuthContext()
+    const navigate=useNavigate()
+
+    const logOut=()=>{
+        logoutUser()
+        navigate("/")
+    }
   return (
     <div className='min-h-screen p-5 flex flex-col items-center justify-center'>
         <h1>Dashboard</h1>
@@ -13,7 +20,7 @@ export default function Dashboard() {
         <p className=''>Phone : {user?.phone_number}</p>
 
         
-        <button className='btn btn-warning'>Logout</button>
+        <button className='btn btn-warning' onClick={logOut}>Logout</button>
     </div>
   )
 }
