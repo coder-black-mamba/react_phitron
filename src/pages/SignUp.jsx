@@ -23,7 +23,7 @@ const Register = () => {
       const response = await registerUser(data);
       console.log(response);
       if (response.success) {
-        navigate("/check-or-resend");
+        navigate("/check-or-resend",{state:{email:data.email}});
       }
     } catch (error) {
       console.log("Registration failed", error);

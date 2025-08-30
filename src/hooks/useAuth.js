@@ -124,6 +124,7 @@ const useAuth = () => {
     setErrorMsg("");
     try {
       await apiClient.post("/auth/users/", userData);
+      setSuccess(true)
       return {
         success: true,
         message:
@@ -150,6 +151,21 @@ const useAuth = () => {
     }
   }
 
+  // resend activation email
+  const resendActivation=async (data)=>{
+    try {
+      await apiClient.post("/auth/users/resend_activation/", data);
+      setSuccess(true)
+      return {
+        success: true,
+        message: "Activation email sent successfully.",
+      };
+    } catch (error) {
+      setErrorMsg(JSON.stringify(error.response.data));
+      setSuccess(false)
+    }
+  }
+
   // Logout User
   const logoutUser = () => {
     setAuthTokens(null);
@@ -169,6 +185,7 @@ const useAuth = () => {
     resetPasswordConfirm,
     activateUser,
     success,
+    resendActivation,
   };
 };
 
