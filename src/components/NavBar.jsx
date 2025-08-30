@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router";
 
 export default function NavBar() {
   return (
@@ -32,19 +33,19 @@ export default function NavBar() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a>Homepage</a>
+                <NavLink to="/">Homepage</NavLink>
               </li>
               <li>
-                <a>Portfolio</a>
+                <NavLink to="/portfolio">Portfolio</NavLink>
               </li>
               <li>
-                <a>About</a>
+                <NavLink to="/about">About</NavLink>
               </li>
             </ul>
           </div>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">ABSYD</a>
+          <NavLink to="/" className="btn btn-ghost text-xl">ABSYD</NavLink>
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">

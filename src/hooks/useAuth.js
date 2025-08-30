@@ -101,7 +101,7 @@ const useAuth = () => {
       console.log(error.response.data);
       setErrorMsg(JSON.stringify(error.response.data));
     }
-  }
+  }  
   
 
   // Login User
@@ -134,6 +134,22 @@ const useAuth = () => {
     }
   };
 
+  // activate user 
+  const activateUser= async (data)=>{
+    setErrorMsg("")
+    try {
+      await apiClient.post("/auth/users/activation/", data);
+      setSuccess(true)
+      return {
+        success: true,
+        message: "User activated successfully.",
+      };
+    } catch (error) {
+      setErrorMsg(JSON.stringify(error.response.data));
+      setSuccess(false)
+    }
+  }
+
   // Logout User
   const logoutUser = () => {
     setAuthTokens(null);
@@ -151,6 +167,7 @@ const useAuth = () => {
     changePassword,
     resetPassword,
     resetPasswordConfirm,
+    activateUser,
     success,
   };
 };
