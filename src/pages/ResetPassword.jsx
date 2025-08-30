@@ -2,26 +2,16 @@ import React , {useState} from 'react'
 import { useForm } from 'react-hook-form'
 import apiClient from '../services/api-client';
 import SuccessAlert from '../components/SuccessAlert';
+import ErrorAlert from '../components/ErrorAlert';
+import useAuthContext from '../hooks/useAuthContext';
 
 export default function ResetPassword() {
 
-  const { register, handleSubmit, formState: { errors ,isSubmitting } } = useForm();
-  const [error, setError] = useState(null)
-  const [success, setSuccess] = useState(false)
+  const { register, handleSubmit, formState: { errors ,isSubmitting } } = useForm(); 
+  const {errorMsg,success,resetPassword } = useAuthContext()
 
-  // without using context
   const onSubmit=async (data)=>{
-    try {
-      const response = await apiClient.post("/auth/users/reset_password/", data);
-      if(response.status === 204){
-        setError(null)
-        setSuccess(true)
-      }
-      console.log(response)
-    } catch (error) {
-      setError(error.response.data)
-      console.log(error.response.data)
-    }
+    await resetPassword(data)
   }
 
 
@@ -31,9 +21,11 @@ export default function ResetPassword() {
       <form action="" className='p-5 min-w-1/2 border-2 border-black rounded bg-base-200'>
         <h1 className='text-2xl font-bold text-center py-2 border-b-2 border-black'>Reset Password </h1>
         
-        {error && <p className='text-red-500'>{error.detail}</p>}
-        {/* {success && <SuccessAlert message="Password Reset Email Sent To Your Email Successfully" />} */}
-
+        {errorMsg && (
+          <div className="my-3">
+            <ErrorAlert message={errorMsg} />
+          </div>
+        )}
         {success ? (
           <div className='text-center p-3'>
             <SuccessAlert message="Password Reset Email Sent To Your Email Successfully . Please Check Your Email To Reset Your Password" />

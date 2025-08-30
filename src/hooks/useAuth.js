@@ -4,6 +4,7 @@ import apiClient from "../services/api-client";
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [success, setSuccess] = useState(false)
 
   const getToken = () => {
     const token = localStorage.getItem("authTokens");
@@ -74,6 +75,35 @@ const useAuth = () => {
     }
   };
 
+  // forgot password
+  const resetPassword=async (data)=>{
+     try {
+          const response = await apiClient.post("/auth/users/reset_password/", data);
+          if(response.status === 204){
+            setErrorMsg(null)
+            setSuccess(true)
+          }
+          console.log(response)
+        } catch (error) {
+          setErrorMsg(JSON.stringify(error.response.data))
+          console.log(error.response.data)
+        }
+  }
+  const resetPasswordConfirm=async (data)=>{
+    try {
+      const response = await apiClient.post("/auth/users/reset_password_confirm/", data);
+      console.log(response)
+      if(response.status === 204){
+        setErrorMsg(null)
+        setSuccess(true)
+      }
+    } catch (error) { 
+      console.log(error.response.data);
+      setErrorMsg(JSON.stringify(error.response.data));
+    }
+  }
+  
+
   // Login User
   const loginUser = async (userData) => {
     setErrorMsg("");
@@ -119,6 +149,9 @@ const useAuth = () => {
     logoutUser,
     updateUserProfile,
     changePassword,
+    resetPassword,
+    resetPasswordConfirm,
+    success,
   };
 };
 
